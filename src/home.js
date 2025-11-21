@@ -1,7 +1,21 @@
-import { onCategoriesClick } from "./js/handlers";
+import {
+  onCategoriesClick,
+  onClearClick,
+  onFormSubmit,
+  onProductClick,
+  toggleClearButton,
+} from "./js/handlers";
 import { getCategories, getProducts } from "./js/products-api";
-import { categoriesListEl } from "./js/refs";
+import {
+  categoriesListEl,
+  modalEl,
+  productsListEl,
+  searchClearBtnEl,
+  searchformEl,
+  searchInputEl,
+} from "./js/refs";
 import { renderCategories, renderProducts } from "./js/render-function";
+import { onModalClick } from "./js/modal";
 
 async function init() {
   const {
@@ -17,3 +31,11 @@ async function init() {
 init();
 
 categoriesListEl.addEventListener("click", onCategoriesClick);
+
+productsListEl.addEventListener("click", onProductClick);
+
+modalEl.addEventListener("click", onModalClick);
+
+searchformEl.addEventListener("submit", onFormSubmit);
+searchInputEl.addEventListener("input", toggleClearButton);
+searchClearBtnEl.addEventListener("click", onClearClick);
