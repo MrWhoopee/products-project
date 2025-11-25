@@ -1,26 +1,13 @@
-import { CART_LS, LIMIT_PAGE } from "./constants";
-import { loadMoreBtnToggle, toggleModalBtnText } from "./helpers";
 import { toggleModal } from "./modal";
 import {
+  getProductById,
   getProductById,
   getProducts,
   getProductsByCategories,
   searchProduct,
 } from "./products-api";
-import {
-  categoriesListEl,
-  modalCartBtnEl,
-  modalEl,
-  modalProductEl,
-  notFoundDivEl,
-  productsListEl,
-  searchClearBtnEl,
-  searchInputEl,
-} from "./refs";
-import { renderProduct, renderAllProduct } from "./render-function";
-import { checkLocalStorage } from "./storage";
-let currentPage = 1;
-let searchValue = null;
+import { modalEl, modalProductEl, notFoundDivEl, productsListEl } from "./refs";
+import { renderProduct, renderProducts } from "./render-function";
 
 export async function onCategoriesClick(e) {
   if (e.target.nodeName !== "BUTTON") return;

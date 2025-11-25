@@ -1,26 +1,15 @@
-import {
-  onCategoriesClick,
-  onClearClick,
-  onFormSubmit,
-  onLoadMoreClick,
-  onProductClick,
-  toggleClearButton,
-} from "./js/handlers";
+import { onCategoriesClick, onFormSubmit, onProductClick } from "./js/handlers";
+import { onModalClick } from "./js/modal";
 import { getCategories, getProducts } from "./js/products-api";
 import {
   categoriesListEl,
   modalEl,
+  modalEl,
   productsListEl,
-  searchClearBtnEl,
-  searchformEl,
-  searchInputEl,
-  loadMoreBtn,
+  modalEl,
+  searchFormEl,
 } from "./js/refs";
-import { renderCategories, renderAllProduct } from "./js/render-function";
-import { onModalClick } from "./js/modal";
-import { loadMoreBtnToggle, updateCartCount } from "./js/helpers";
-import { CART_LS, LIMIT_PAGE } from "./js/constants";
-import { loadLocalStorage } from "./js/storage";
+import { renderCategories, renderProducts } from "./js/render-function";
 
 async function init() {
   const storageCart = loadLocalStorage(CART_LS) || [];
