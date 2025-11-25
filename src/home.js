@@ -1,10 +1,18 @@
-import { onCategoriesClick, onProductClick, onFormSubmit } from "./js/handlers";
+import {
+  onCategoriesClick,
+  onClearClick,
+  onFormSubmit,
+  onProductClick,
+  toggleClearButton,
+} from "./js/handlers";
 import { getCategories, getProducts } from "./js/products-api";
 import {
   categoriesListEl,
-  productsListEl,
   modalEl,
-  searchFormEl,
+  productsListEl,
+  searchClearBtnEl,
+  searchformEl,
+  searchInputEl,
 } from "./js/refs";
 import { renderCategories, renderProducts } from "./js/render-function";
 import { onModalClick } from "./js/modal";
@@ -23,6 +31,11 @@ async function init() {
 init();
 
 categoriesListEl.addEventListener("click", onCategoriesClick);
+
 productsListEl.addEventListener("click", onProductClick);
+
 modalEl.addEventListener("click", onModalClick);
-searchFormEl.addEventListener("submit", onFormSubmit);
+
+searchformEl.addEventListener("submit", onFormSubmit);
+searchInputEl.addEventListener("input", toggleClearButton);
+searchClearBtnEl.addEventListener("click", onClearClick);

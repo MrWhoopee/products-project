@@ -11,6 +11,10 @@ export function getProducts(page = 1) {
   });
 }
 
+export function getProductById(id) {
+  return axios.get(`products/${id}`);
+}
+
 export function getProductsByCategories(cat, page = 1) {
   return axios.get(`products/category/${cat}`, {
     params: {
@@ -24,16 +28,12 @@ export function getCategories() {
   return axios("products/category-list");
 }
 
-export function getProductById(id) {
-  return axios.get(`products/${id}`);
-}
-
 export function searchProduct(q, page = 1) {
-  return axios.get(`products/search`, {
+  return axios.get("products/search", {
     params: {
-      q,
       limit: LIMIT_PAGE,
       skip: (page - 1) * LIMIT_PAGE,
+      q,
     },
   });
 }
