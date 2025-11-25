@@ -1,6 +1,6 @@
 import { categoriesListEl, productsListEl } from "./refs";
 
-export function renderProducts(products) {
+export function renderAllProduct(products) {
   const productsMarkup = products
     .map(({ id, images, title, brand, category, price }) => {
       return `

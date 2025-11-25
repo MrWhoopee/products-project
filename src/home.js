@@ -2,6 +2,7 @@ import {
   onCategoriesClick,
   onClearClick,
   onFormSubmit,
+  onLoadMoreClick,
   onProductClick,
   toggleClearButton,
 } from "./js/handlers";
@@ -13,18 +14,24 @@ import {
   searchClearBtnEl,
   searchformEl,
   searchInputEl,
+  loadMoreBtn,
 } from "./js/refs";
-import { renderCategories, renderProducts } from "./js/render-function";
+import { renderCategories, renderAllProduct } from "./js/render-function";
 import { onModalClick } from "./js/modal";
+import { loadMoreBtnToggle } from "./js/helpers";
+import { LIMIT_PAGE } from "./js/constants";
 
 async function init() {
   const {
-    data: { products },
+    data: { products, total },
   } = await getProducts();
 
   const { data: categories } = await getCategories();
+  if (total / LIMIT_PAGE > 1) {
+    loadMoreBtnToggle();
+  }
 
-  renderProducts(products);
+  renderAllProduct(products);
   renderCategories(categories);
 }
 
@@ -39,3 +46,4 @@ modalEl.addEventListener("click", onModalClick);
 searchformEl.addEventListener("submit", onFormSubmit);
 searchInputEl.addEventListener("input", toggleClearButton);
 searchClearBtnEl.addEventListener("click", onClearClick);
+loadMoreBtn.addEventListener("click", onLoadMoreClick);

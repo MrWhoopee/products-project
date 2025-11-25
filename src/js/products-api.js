@@ -1,6 +1,6 @@
 import axios from "axios";
+import { LIMIT_PAGE } from "./constants";
 axios.defaults.baseURL = "https://dummyjson.com/";
-const LIMIT_PAGE = 12;
 
 export function getProducts(page = 1) {
   return axios.get("products", {

@@ -1,5 +1,5 @@
-import { CART_LS } from "./constants";
-import { toggleModalBtnText } from "./helpers";
+import { CART_LS, LIMIT_PAGE } from "./constants";
+import { loadMoreBtnToggle, toggleModalBtnText } from "./helpers";
 import { toggleModal } from "./modal";
 import {
   getProductById,
@@ -17,8 +17,10 @@ import {
   searchClearBtnEl,
   searchInputEl,
 } from "./refs";
-import { renderProduct, renderProducts } from "./render-function";
+import { renderProduct, renderAllProduct } from "./render-function";
 import { checkLocalStorage } from "./storage";
+let currentPage = 1;
+let searchValue = null;
 
 export async function onCategoriesClick(e) {
   if (e.target.nodeName !== "BUTTON") return;
@@ -52,7 +54,7 @@ export async function onCategoriesClick(e) {
     return;
   }
 
-  renderProducts(products);
+  renderAllProduct(products);
 }
 
 export async function onProductClick(e) {
@@ -72,7 +74,7 @@ export async function onProductClick(e) {
 export async function onFormSubmit(e) {
   e.preventDefault();
 
-  const searchValue = e.target.elements.searchValue.value.trim();
+  searchValue = e.target.elements.searchValue.value.trim();
 
   // Не робити запити з порожнім рядком та пробілами
   if (searchValue.length === 0) {
@@ -80,19 +82,22 @@ export async function onFormSubmit(e) {
   }
 
   try {
-    const {
-      data: { products },
-    } = await searchProduct(searchValue);
-
     productsListEl.innerHTML = "";
     notFoundDivEl.classList.remove("not-found--visible");
+    loadMoreBtnToggle(true);
+    const {
+      data: { products, total },
+    } = await searchProduct(searchValue);
 
     if (products.length === 0) {
       notFoundDivEl.classList.add("not-found--visible");
       return;
     }
+    if (total / LIMIT_PAGE > 1) {
+      loadMoreBtnToggle();
+    }
 
-    renderProducts(products);
+    renderAllProduct(products);
   } catch (error) {
     console.error("Search error:", error);
     productsListEl.innerHTML = "";
@@ -117,7 +122,7 @@ export async function onClearClick() {
       return;
     }
 
-    renderProducts(products);
+    renderAllProduct(products);
   } catch (error) {
     console.error("Error loading products:", error);
   }
@@ -130,4 +135,25 @@ export function toggleClearButton() {
   } else {
     searchClearBtnEl.classList.remove("search-form__btn-clear--visible");
   }
+}
+
+export async function onLoadMoreClick() {
+  currentPage += 1;
+  let response = null;
+
+  if (searchValue !== null) {
+    response = await searchProduct(searchValue, currentPage);
+  } else {
+    response = await getProducts(currentPage);
+  }
+  const {
+    data: { products, total },
+  } = response;
+
+  const totalPages = Math.ceil(total / LIMIT_PAGE);
+
+  if (currentPage === totalPages) {
+    loadMoreBtnToggle(true);
+  }
+  renderAllProduct(products);
 }
