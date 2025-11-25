@@ -47,6 +47,12 @@ export async function onCategoriesClick(e) {
     return;
   }
 
+  if (products.length === 0) {
+    // console.log("Not Found");
+    notFoundDivEl.classList.add("not-found--visible");
+    return;
+  }
+
   renderProducts(products);
 }
 
