@@ -23,7 +23,7 @@ export function renderProducts(products) {
 
 export function renderCategories(categories) {
   const categoriesMarkup = ["all", ...categories]
-    .map((cat) => {
+    .map(cat => {
       return `<li class="categories__item">
                 <button class="categories__btn" id="${cat}" type="button" >${cat}</button>
             </li>`;
@@ -34,7 +34,6 @@ export function renderCategories(categories) {
 }
 
 export function renderProduct(data, selector) {
-  console.log(data);
   const {
     images,
     title,
@@ -45,7 +44,7 @@ export function renderProduct(data, selector) {
     price,
     id,
   } = data;
-  const tagsMarkup = tags.map((tag) => `<li>${tag}</li>`).join("");
+  const tagsMarkup = tags.map(tag => `<li>${tag}</li>`).join("");
 
   const markup = `<img class="modal-product__img" src="${images[0]}" alt="${title}" />
                     <div class="modal-product__content" data-product-id="${id}">
